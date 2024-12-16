@@ -1,0 +1,92 @@
+[project]
+name = "fasteda"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "jwcrypto>=1.5.6",
+    "pydantic>=2.10.3",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.13.0",
+    "ruff>=0.8.3",
+]
+
+[tool.mypy]
+python_version = "3.12"
+
+enable_error_code = ["truthy-bool", "redundant-expr", "unused-awaitable"]
+
+allow_redefinition = false
+check_untyped_defs = true
+disallow_untyped_decorators = true
+# disallow_any_explicit = true
+disallow_any_generics = true
+# disallow_untyped_calls = true
+ignore_errors = false
+# implicit_reexport = false
+local_partial_types = true
+strict_optional = true
+strict_equality = true
+no_implicit_optional = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unreachable = true
+warn_no_return = true
+
+[[tool.mypy.overrides]]
+module = [
+    "jwcrypto.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 79
+target-version = "py312"
+
+extend-select = [
+    # Base
+    "A",      # flake8-builtins
+    "N",      # Naming
+    "B",      # flake8-bugbear
+    "F",      # Pyflakes
+    "C",      # pycodestyle
+    "W",      # pycodestyle
+    "E",      # pycodestyle
+
+    # Imports and sorting
+    "I",      # isort
+    "ICN",    # flake8-import-conventions
+    "TID",    # flake8-tidy-imports
+
+    # Logging
+    "G",      # flake8-logging-format
+    "LOG",    # flake8-logging
+
+    # Refactoring and comprehensions
+    # "R",      # Refactor
+    "C4",     # flake8-comprehensions
+    "SIM",    # flake8-simplify
+
+    # Security checks (bandit and custom rules)
+    "S",      # Bandit
+
+    # Python upgrades
+    "UP",     # pyupgrade
+
+    # Type checking and annotations
+    "PT",     # flake8-pytest-style
+    "PYI",    # flake8-pyi
+]
+ignore = [
+    "COM812", # Conflict with format
+    "ISC001", # Conflict with format
+]
