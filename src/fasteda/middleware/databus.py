@@ -23,7 +23,7 @@ class DatabusExtractHeaders:
 
 
 class DatabusExtractVersion:
-    def __init__(self, version):
+    def __init__(self, version: str):
         self.version = version
 
     def __call__(self, event: Event, next_: Handler) -> None:
