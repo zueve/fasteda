@@ -10,10 +10,8 @@ class Event(Protocol):
 
 Result = Awaitable[None]
 
-Handler = Callable[[Event], Awaitable[None]]
+Handler = Callable[[Event], Result]
 
-HandlerAdder = Callable[
-    [Callable[..., Awaitable[None]] | Callable[..., None]], Handler
-]
+HandlerAdder = Callable[[Callable[..., Result] | Callable[..., None]], Handler]
 
-Middleware = Callable[[Event, Handler], Awaitable[None]]
+Middleware = Callable[[Event, Handler], Result]
