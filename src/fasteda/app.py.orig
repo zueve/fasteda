@@ -41,4 +41,9 @@ class FastEDA:
         handler = self._handlers.get(event.topic, None)
         if not handler:
             raise ValueError(f"No handler for topic {event.topic}")
-        return await handler(event)
+<<<<<<< HEAD
+        return handler(event)
+=======
+        e: interfaces.Event = event
+        return await handler(e)
+>>>>>>> 8784027 (Add async)

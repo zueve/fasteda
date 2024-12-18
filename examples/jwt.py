@@ -1,3 +1,5 @@
+import asyncio
+
 import pydantic
 from jwcrypto import jwk, jwt
 
@@ -37,4 +39,4 @@ if __name__ == "__main__":
         headers={},
         body=body.encode(),
     )
-    apps.handle(event)
+    asyncio.run(apps.handle(event))

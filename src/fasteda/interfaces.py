@@ -1,4 +1,4 @@
-from collections.abc import Callable, Mapping
+from collections.abc import Awaitable, Callable, Mapping
 from typing import Protocol
 
 
@@ -8,8 +8,12 @@ class Event(Protocol):
     body: bytes
 
 
-Handler = Callable[[Event], None]
+Result = Awaitable[None]
 
-HandlerAdder = Callable[[Callable[..., None]], Handler]
+Handler = Callable[[Event], Awaitable[None]]
 
-Middleware = Callable[[Event, Handler], None]
+HandlerAdder = Callable[
+    [Callable[..., Awaitable[None]] | Callable[..., None]], Handler
+]
+
+Middleware = Callable[[Event, Handler], Awaitable[None]]

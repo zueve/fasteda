@@ -1,12 +1,14 @@
 import inspect
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 
 from pydantic import BaseModel
 
 from . import interfaces
 
 
-def pydantic(endpoint: Callable[..., None]) -> interfaces.Handler:
+def pydantic(
+    endpoint: Callable[..., Awaitable[None]] | Callable[..., None],
+) -> interfaces.Handler:
     # extratc type of T from signature of endpoint
     sign = dict(inspect.signature(endpoint).parameters)
     if len(sign) != 1:
@@ -20,8 +22,12 @@ def pydantic(endpoint: Callable[..., None]) -> interfaces.Handler:
     if not issubclass(param_type, BaseModel):
         raise ValueError("Endpoint parameter must be subclass of BaseModel")
 
-    def handler(event: interfaces.Event) -> None:
+    async def handler(event: interfaces.Event) -> None:
         body = param_type.parse_raw(event.body)
-        endpoint(body)
+        if inspect.iscoroutinefunction(endpoint):
+            await endpoint(body)
+        else:
+            endpoint(body)
+        return None
 
     return handler
