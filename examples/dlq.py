@@ -7,7 +7,7 @@ from fasteda import adder, app, entity, interfaces
 producer = Mock()
 
 
-def dlq_middleware(event: entity.Event, next_: interfaces.Handler) -> None:
+def dlq_middleware(event: interfaces.Event, next_: interfaces.Handler) -> None:
     try:
         return next_(event)
     except Exception:
@@ -32,7 +32,7 @@ def create_client(client: Client) -> None:
     raise ValueError("Something went wrong")
 
 
-def dlq(event: entity.Event) -> None:
+def dlq(event: interfaces.Event) -> None:
     topic_orig = event.headers["dlq.topic-orig"]
     event.topic = topic_orig
     apps.handle(event)

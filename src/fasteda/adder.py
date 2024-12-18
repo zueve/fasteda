@@ -3,7 +3,7 @@ from collections.abc import Callable
 
 from pydantic import BaseModel
 
-from . import entity, interfaces
+from . import interfaces
 
 
 def pydantic(endpoint: Callable[..., None]) -> interfaces.Handler:
@@ -20,7 +20,7 @@ def pydantic(endpoint: Callable[..., None]) -> interfaces.Handler:
     if not issubclass(param_type, BaseModel):
         raise ValueError("Endpoint parameter must be subclass of BaseModel")
 
-    def handler(event: entity.Event) -> None:
+    def handler(event: interfaces.Event) -> None:
         body = param_type.parse_raw(event.body)
         endpoint(body)
 

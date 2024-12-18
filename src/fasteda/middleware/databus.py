@@ -1,10 +1,19 @@
 import json
+from collections.abc import Callable, Mapping
+from typing import Protocol
 
-from fasteda import entity, interfaces
+
+class Event(Protocol):
+    topic: str
+    headers: Mapping[str, str]
+    body: bytes
+
+
+Handler = Callable[[Event], None]
 
 
 class DatabusExtractHeaders:
-    def __call__(self, event: entity.Event, next_: interfaces.Handler) -> None:
+    def __call__(self, event: Event, next_: Handler) -> None:
         databus_headers = json.loads(event.body)
         body = str(databus_headers.pop("body", ""))
         headers = {**event.headers, **databus_headers}
@@ -17,7 +26,7 @@ class DatabusExtractVersion:
     def __init__(self, version):
         self.version = version
 
-    def __call__(self, event: entity.Event, next_: interfaces.Handler) -> None:
+    def __call__(self, event: Event, next_: Handler) -> None:
         data = json.loads(event.body)
 
         if self.version not in data:

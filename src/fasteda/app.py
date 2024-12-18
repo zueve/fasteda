@@ -1,7 +1,7 @@
 from collections.abc import Callable
 from typing import TypeVar
 
-from . import entity, interfaces
+from . import interfaces
 
 T = TypeVar("T", bound=Callable[..., None])
 
@@ -22,7 +22,7 @@ class FastEDA:
             def wrapper(
                 next_: interfaces.Handler, mw=mw
             ) -> interfaces.Handler:
-                def wrapped(event: entity.Event) -> None:
+                def wrapped(event: interfaces.Event) -> None:
                     return mw(event, next_)
 
                 return wrapped
@@ -37,8 +37,9 @@ class FastEDA:
 
         return wrapper
 
-    def handle(self, event: entity.Event):
+    def handle(self, event: interfaces.Event):
         handler = self._handlers.get(event.topic, None)
         if not handler:
             raise ValueError(f"No handler for topic {event.topic}")
-        return handler(event)
+        e: interfaces.Event = event
+        return handler(e)

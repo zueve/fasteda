@@ -1,9 +1,15 @@
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
+from typing import Protocol
 
-from . import entity
 
-Handler = Callable[[entity.Event], None]
+class Event(Protocol):
+    topic: str
+    headers: Mapping[str, str]
+    body: bytes
+
+
+Handler = Callable[[Event], None]
 
 HandlerAdder = Callable[[Callable[..., None]], Handler]
 
-Middleware = Callable[[entity.Event, Handler], None]
+Middleware = Callable[[Event, Handler], None]
