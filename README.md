@@ -2,8 +2,30 @@
 
 *Like FastAPI but for event processing*
 
+Current status: **WIP**
 
-## See examples:
+## Example of usage
 
- - databus [here](examples/databus.py)
- - dlq [here](examples/dlq.py)
+```python
+import pydantic
+from fasteda import adder, app
+
+
+apps = app.FastEDA(adder=adder.pydantic, middlewares=[])
+
+class Client(pydantic.BaseModel):
+    id: int
+    name: str
+
+@apps.add("client.create.v1")
+def create_client(client: Client) -> None:
+    print(f"Client {client.id} created")  # noqa: T201
+
+```
+
+
+See more examples:
+
+ - Parse jwt [here](examples/jwt.py)
+ - Parse databus [here](examples/databus.py)
+ - DLQ [here](examples/dlq.py)

@@ -43,14 +43,14 @@ if __name__ == "__main__":
     event = entity.Event(
         topic="client.create.v1",
         headers={},
-        body=b"""{"id": 1, "name": "John Doe"}""",
+        body=b'{"id": 1, "name": "John Doe"}',
     )
     apps.handle(event)
 
     event = entity.Event(
         topic="dlq.topic",
         headers={"dlq.topic-orig": "client.create.v1"},
-        body=b"""{"id": 1, "name": "John Doe"}""",
+        body=b'{"id": 1, "name": "John Doe"}',
     )
     producer.send.assert_called_once_with(event)
     apps.handle(event)

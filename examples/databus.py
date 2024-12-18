@@ -35,7 +35,7 @@ if __name__ == "__main__":
         "created_at": 1568732261.4411473,
         "producer": "payment-platform",
         "body": "eyJhbGciOiJSUzI1NiJ9.eyIxLjAuMCI6eyJpZCI6MSwibmFtZSI6IkpvaG4gRG9lIn19.qWjCO_RLb4zAzVvZn9uNvhSuaIGmSQTXaVZH7ZQaqQnAdEMejRebPzACNNn5SmScKU4w5S9mUTOrcXyFPLm02rFFgCw5FSSl84lgjrHowT5I6EUp_PoGAzJTiuCwPh0IPoUay-XznoPeKFmudVCHPskI2Aitx7OFeJ2hjqXTSuE"
-    }""" # noqa: E501
+    }"""  # noqa: E501
     event = entity.Event(
         topic="client.create.v1",
         headers={},

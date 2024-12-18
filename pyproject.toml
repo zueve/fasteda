@@ -52,6 +52,7 @@ ignore_missing_imports = true
 line-length = 79
 target-version = "py312"
 
+[tool.ruff.lint]
 extend-select = [
     # Base
     "A",      # flake8-builtins
