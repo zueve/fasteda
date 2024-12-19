@@ -12,6 +12,8 @@ Result = Awaitable[None]
 
 Handler = Callable[[Event], Result]
 
-HandlerAdder = Callable[[Callable[..., Result] | Callable[..., None]], Handler]
+HandlerAdapter = Callable[
+    [Callable[..., Result] | Callable[..., None]], Handler
+]
 
 Middleware = Callable[[Event, Handler], Result]

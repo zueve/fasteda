@@ -8,10 +8,10 @@ Current status: **WIP**
 
 ```python
 import pydantic
-from fasteda import adder, app
+from fasteda import adapter, app
 
 
-apps = app.FastEDA(adder=adder.pydantic, middlewares=[])
+apps = app.FastEDA(adder=adapter.pydantic, middlewares=[])
 
 class Client(pydantic.BaseModel):
     id: int

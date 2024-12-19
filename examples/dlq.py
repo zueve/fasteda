@@ -3,13 +3,13 @@ from unittest.mock import Mock
 
 import pydantic
 
-from fasteda import adder, app, entity, interfaces
+from fasteda import adapter, app, entity, interface
 
 producer = Mock()
 
 
 async def dlq_middleware(
-    event: interfaces.Event, next_: interfaces.Handler
+    event: interface.Event, next_: interface.Handler
 ) -> None:
     try:
         return await next_(event)
@@ -20,7 +20,7 @@ async def dlq_middleware(
 
 
 apps = app.FastEDA(
-    adder=adder.pydantic,
+    adder=adapter.pydantic,
     middlewares=[dlq_middleware],
 )
 
@@ -35,7 +35,7 @@ def create_client(client: Client) -> None:
     raise ValueError("Something went wrong")
 
 
-async def dlq(event: interfaces.Event) -> None:
+async def dlq(event: interface.Event) -> None:
     topic_orig = event.headers["dlq.topic-orig"]
     event.topic = topic_orig
     await apps.handle(event)

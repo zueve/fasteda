@@ -2,7 +2,7 @@ import base64
 
 from jwcrypto import jwk, jwt
 
-from fasteda import interfaces
+from fasteda import interface
 
 
 class JWTValidate:
@@ -10,7 +10,7 @@ class JWTValidate:
         self.key = key
 
     async def __call__(
-        self, event: interfaces.Event, next_: interfaces.Handler
+        self, event: interface.Event, next_: interface.Handler
     ) -> None:
         jwt.JWT(key=self.key, jwt=event.body.decode())
         return await next_(event)
@@ -18,7 +18,7 @@ class JWTValidate:
 
 class JWTExtractPayload:
     async def __call__(
-        self, event: interfaces.Event, next_: interfaces.Handler
+        self, event: interface.Event, next_: interface.Handler
     ) -> None:
         token = event.body.decode()
         _, payload, _ = token.split(".")

@@ -3,13 +3,13 @@ import asyncio
 import pydantic
 from jwcrypto import jwk, jwt
 
-from fasteda import adder, app, entity, middleware
+from fasteda import adapter, app, entity, middleware
 
 private_key = jwk.JWK.generate(kty="RSA", size=1024)
 public_key = jwk.JWK.from_json(private_key.export_public())
 
 apps = app.FastEDA(
-    adder=adder.pydantic,
+    adder=adapter.pydantic,
     middlewares=[
         middleware.JWTValidate(public_key),
         middleware.JWTExtractPayload(),

@@ -3,7 +3,7 @@ import asyncio
 import pydantic
 from jwcrypto import jwk
 
-from fasteda import adder, app, entity, middleware
+from fasteda import adapter, app, entity, middleware
 
 private_key = jwk.JWK.from_json(
     '{"d":"iFdVmc0DSxB1A9Mff3whz1wyMmb70WIIRykNOhNwPH-I_7RhhnoeVidm3wq78ERJsQ8Swrd4gNo9x65XY7kJPxFPEPEnGovB2Pysbxy0PQLMRiO9k9BhBkXzMqDcaL6wORbtZwvyPsdZnnk5gDb_xjChiiGtg8qLnpG_HcHKkIk","dp":"BCQlKiZpu6eo7o4t2ivVH2itVCELqgDy6rg75k9cp8Aw4Mpb-mRIsMp5iI-hSMl_PMToaEzP0c4eEB_EeF_QaQ","dq":"qIaI0QBn2sL9VL_9dhGFYkrq-EvSAYqg3yi58-iubvI3sEAkVAKEH3ACeDVlcTnFrTENeXPg1RavnOJLjLygaQ","e":"AQAB","kty":"RSA","n":"snGWdvgu_m8vhDKxAXsQGgB6ciLRGbRda6TbhgASu0xGYlRSDxcPrRXQnCmRsGPtawcQgHoFAwfGLZAIb5Nv9Ym_FlyFvMPqQkAzPV6Gv7jTozbjTcofqZKsxYvDoxi97xrXa_BInrvEoEZkZ_R0nLK1bEwDFKjd67n8lspM2QE","p":"4WqXBrbVEHSkngDv6j7JaCS6bjgWwuT605fyFRr-9flUaHL7DoOh0r8Bfvi85jnWzrO0j_5TDgUTMARg_KiQww","q":"yqd9ykTsCsxZeNHFS0hfZA2D5SBFgcJ_BaAbMM6wnWEwZKutf42TXwkL5PsVxRySqXiBnkQaHwmCsbcZyvDS6w","qi":"WF0vbLEe-1jTh9IaBCaX1pvE-Y4APe0ELIPxpls9wlymlKfchvgI43d3oKyxhCSE8CQkJ8pmDjPZe6BnOrqnBQ"}'
@@ -11,7 +11,7 @@ private_key = jwk.JWK.from_json(
 public_key = jwk.JWK.from_json(private_key.export_public())
 
 apps = app.FastEDA(
-    adder=adder.pydantic,
+    adder=adapter.pydantic,
     middlewares=[
         middleware.DatabusExtractHeaders(),
         middleware.JWTValidate(public_key),
