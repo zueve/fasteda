@@ -40,3 +40,9 @@ class FastEDA:
         if not handler:
             raise ValueError(f"No handler for topic {event.topic}")
         return await handler(event)
+
+    async def start(self):
+        pass
+
+    async def stop(self):
+        pass
