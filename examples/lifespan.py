@@ -1,8 +1,20 @@
+from contextlib import asynccontextmanager
+
 import pydantic
 
 from fasteda import adapter, app
 
-apps = app.FastEDA(adapter=adapter.pydantic, middlewares=[])
+
+@asynccontextmanager
+async def lifespan():
+    print("On startup")
+    try:
+        yield
+    finally:
+        print("On shutdown")
+
+
+apps = app.FastEDA(adapter=adapter.pydantic, lifespan=lifespan())
 
 
 class Client(pydantic.BaseModel):

@@ -1,9 +1,15 @@
 from collections.abc import Awaitable, Callable
+from contextlib import AbstractAsyncContextManager, asynccontextmanager
 from typing import TypeVar
 
 from . import interface
 
 T = TypeVar("T", bound=Callable[..., Awaitable[None]] | Callable[..., None])
+
+
+@asynccontextmanager
+async def empty():
+    yield
 
 
 class FastEDA:
@@ -12,10 +18,12 @@ class FastEDA:
         adapter: interface.HandlerAdapter,
         middlewares: list[interface.Middleware] | None = None,
         groups: list["Group"] | None = None,
+        lifespan: AbstractAsyncContextManager[None] | None = None,
     ):
         self._handlers: dict[str, interface.Handler] = {}
         self._adapter = adapter
         self._middlewares = middlewares or []
+        self._lifespan = lifespan or empty()
 
         for group in groups or []:
             for topic, handler in group.handlers.items():
@@ -58,10 +66,11 @@ class FastEDA:
         return handler
 
     async def __aenter__(self):
-        pass
+        await self._lifespan.__aenter__()
+        return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        pass
+        await self._lifespan.__aexit__(exc_type, exc_val, exc_tb)
 
 
 class Group:

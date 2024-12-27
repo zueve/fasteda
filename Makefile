@@ -11,3 +11,4 @@ test:
 	uv run examples/jwt.py
 	uv run examples/databus.py
 	uv run examples/dlq.py
+	uv run examples/lifespan.py
