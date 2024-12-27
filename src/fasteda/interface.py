@@ -5,7 +5,7 @@ from typing import Protocol
 class Event(Protocol):
     topic: str
     headers: Mapping[str, str]
-    body: bytes
+    value: bytes
 
 
 Result = Awaitable[None]

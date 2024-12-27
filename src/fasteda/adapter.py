@@ -23,11 +23,11 @@ def pydantic(
         raise ValueError("Endpoint parameter must be subclass of BaseModel")
 
     async def handler(event: interface.Event) -> None:
-        body = param_type.parse_raw(event.body)
+        value = param_type.parse_raw(event.value)
         if inspect.iscoroutinefunction(endpoint):
-            await endpoint(body)
+            await endpoint(value)
         else:
-            endpoint(body)
+            endpoint(value)
         return None
 
     return handler

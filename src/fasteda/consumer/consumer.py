@@ -33,7 +33,7 @@ class Consumer:
         event = entity.Event(
             topic=msg.topic,
             headers=dict(msg.headers),
-            body=msg.value,
+            value=msg.value,
         )
 
         await self._app.handle(event)

@@ -7,4 +7,4 @@ from typing import Any
 class Event:
     topic: str
     headers: Mapping[str, Any]
-    body: bytes
+    value: bytes

@@ -11,7 +11,7 @@ type Handler = Callable[[ConsumerRecordType], Awaitable[None]]
 class Event(Protocol):
     topic: str
     headers: Mapping[str, bytes]
-    body: bytes
+    value: bytes
 
 
 @runtime_checkable

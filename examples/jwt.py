@@ -37,6 +37,6 @@ if __name__ == "__main__":
     event = entity.Event(
         topic="client.create.v1",
         headers={},
-        body=body.encode(),
+        value=body.encode(),
     )
     asyncio.run(apps.handle(event))
