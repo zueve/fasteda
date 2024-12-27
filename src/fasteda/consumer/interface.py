@@ -4,13 +4,13 @@ from typing import Protocol, runtime_checkable
 
 import aiokafka
 
-type ConsumerRecordType = aiokafka.ConsumerRecord[str, bytes]
+type ConsumerRecordType = aiokafka.ConsumerRecord[bytes, bytes]
 type Handler = Callable[[ConsumerRecordType], Awaitable[None]]
 
 
 class Event(Protocol):
     topic: str
-    headers: Mapping[str, bytes]
+    headers: Mapping[str, str]
     value: bytes
 
 

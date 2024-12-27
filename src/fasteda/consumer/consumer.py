@@ -21,18 +21,18 @@ class Consumer:
         self._client = client
         self._app = config.app
 
-    async def run(self):
+    async def run(self) -> None:
         async with self._client, self._app:
             async for msg in self._client:
                 await asyncio.shield(self.handle(msg))
 
     async def handle(self, msg: interface.ConsumerRecordType) -> None:
         if msg.value is None:
-            raise ValueError("Ivalid message")
+            msg.value = b""
 
         event = entity.Event(
             topic=msg.topic,
-            headers=dict(msg.headers),
+            headers={k: v.decode() for k, v in msg.headers},
             value=msg.value,
         )
 

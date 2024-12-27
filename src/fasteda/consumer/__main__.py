@@ -11,7 +11,7 @@ from . import config, consumer
 def run(**kwargs):
     consumer_config = config.Consumer.from_env(**kwargs)
 
-    async def run():
+    async def run() -> None:
         consumer_ = consumer.Consumer(consumer_config)
         await consumer_.run()
 
