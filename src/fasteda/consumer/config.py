@@ -1,6 +1,6 @@
 from typing import Any
 
-from pydantic import ImportString, BaseModel
+from pydantic import BaseModel, ImportString
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from . import interface
@@ -39,7 +39,7 @@ class Consumer(BaseSettings):
     app: ImportString[interface.App]
     aiokafka: AIOKafka
 
-    model_config = SettingsConfigDict(env_nested_delimiter='__')
+    model_config = SettingsConfigDict(env_nested_delimiter="__")
 
     @classmethod
     def from_env(cls, **kwargs: Any) -> "Consumer":

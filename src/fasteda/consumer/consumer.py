@@ -12,6 +12,16 @@ class Consumer:
         self,
         config: config.Consumer,
     ):
+        topics = config.topics
+        supported_topics = config.app.get_topics()
+        if not topics:
+            topics = supported_topics
+        elif not topics.issubset(supported_topics):
+            unsupporter_topics = topics - supported_topics
+            raise ValueError(
+                f"Topics {unsupporter_topics} are not supported by the app"
+            )
+
         topics = (
             config.app.get_topics() if not config.topics else config.topics
         )

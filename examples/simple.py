@@ -14,6 +14,7 @@ class Client(pydantic.BaseModel):
 def create_client(client: Client) -> None:
     print(f"{client=} created")  # noqa: T201
 
+
 @apps.add("client.update.v1")
 def update_client(client: Client) -> None:
     print(f"{client=} updated")  # noqa: T201
