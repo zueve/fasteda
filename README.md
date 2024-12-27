@@ -11,7 +11,7 @@ import pydantic
 from fasteda import adapter, app
 
 
-apps = app.FastEDA(adder=adapter.pydantic, middlewares=[])
+apps = app.FastEDA(adapter=adapter.pydantic, middlewares=[])
 
 class Client(pydantic.BaseModel):
     id: int
