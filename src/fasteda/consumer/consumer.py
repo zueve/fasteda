@@ -12,8 +12,11 @@ class Consumer:
         self,
         config: config.Consumer,
     ):
+        topics = (
+            config.app.get_topics() if not config.topics else config.topics
+        )
         client = aiokafka.AIOKafkaConsumer(
-            *config.topics,
+            *topics,
             **config.aiokafka.model_dump(),
             enable_auto_commit=False,
         )

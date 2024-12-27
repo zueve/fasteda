@@ -1,14 +1,14 @@
 from typing import Any
 
-from pydantic import ImportString
-from pydantic_settings import BaseSettings
+from pydantic import ImportString, BaseModel
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from . import interface
 
 
-class AIOKafka(BaseSettings):
+class AIOKafka(BaseModel):
     bootstrap_servers: str = "kafka:9092"
-    group_id: str | None = None
+    group_id: str
     group_instance_id: str | None = None
     fetch_max_wait_ms: int = 500
     fetch_max_bytes: int = 52428800
@@ -37,7 +37,9 @@ class AIOKafka(BaseSettings):
 class Consumer(BaseSettings):
     topics: set[str] = set()
     app: ImportString[interface.App]
-    aiokafka: AIOKafka = AIOKafka()
+    aiokafka: AIOKafka
+
+    model_config = SettingsConfigDict(env_nested_delimiter='__')
 
     @classmethod
     def from_env(cls, **kwargs: Any) -> "Consumer":
