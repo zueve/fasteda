@@ -1,4 +1,5 @@
 from collections.abc import Awaitable, Callable, Mapping
+from contextlib import AbstractAsyncContextManager
 from typing import Protocol, runtime_checkable
 
 import aiokafka
@@ -14,9 +15,5 @@ class Event(Protocol):
 
 
 @runtime_checkable
-class App(Protocol):
-    async def start(self) -> None: ...
-
-    async def stop(self) -> None: ...
-
+class App(AbstractAsyncContextManager["App"], Protocol):
     async def handle(self, event: Event) -> None: ...

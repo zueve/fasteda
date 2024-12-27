@@ -11,22 +11,20 @@ class Consumer:
     def __init__(
         self,
         config: config.Consumer,
-        client: aiokafka.AIOKafkaConsumer,
     ):
-        self._config = config
-        self._app = config.app
+        client = aiokafka.AIOKafkaConsumer(
+            *config.topics,
+            **config.aiokafka.model_dump(),
+            enable_auto_commit=False,
+        )
+
         self._client = client
+        self._app = config.app
 
     async def run(self):
-        await self._client.start()
-        await self._app.start()
-
-        try:
+        async with self._client, self._app:
             async for msg in self._client:
                 await asyncio.shield(self.handle(msg))
-        finally:
-            await self._app.stop()
-            await self._client.stop()
 
     async def handle(self, msg: interface.ConsumerRecordType) -> None:
         if msg.value is None:
@@ -39,6 +37,4 @@ class Consumer:
         )
 
         await self._app.handle(event)
-
-        if self._config.enable_auto_commit:
-            await self._client.commit()
+        await self._client.commit()

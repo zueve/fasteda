@@ -17,8 +17,8 @@ class AIOKafka(BaseSettings):
     request_timeout_ms: int = 40000
     retry_backoff_ms: int = 100
     auto_offset_reset: str = "latest"
-    enable_auto_commit: bool = True
-    auto_commit_interval_ms: int = 1000
+    # enable_auto_commit: bool = True
+    # auto_commit_interval_ms: int = 1000
     check_crcs: bool = True
     metadata_max_age_ms: int = 300000
     max_poll_interval_ms: int = 300000
@@ -33,15 +33,11 @@ class AIOKafka(BaseSettings):
     connections_max_idle_ms: int = 540000
     isolation_level: str = "read_uncommitted"
 
-    @classmethod
-    def from_env(cls, **kwargs: Any) -> "AIOKafka":
-        return cls(**kwargs)
-
 
 class Consumer(BaseSettings):
     topics: set[str] = set()
-    enable_auto_commit: bool = True
     app: ImportString[interface.App]
+    aiokafka: AIOKafka = AIOKafka()
 
     @classmethod
     def from_env(cls, **kwargs: Any) -> "Consumer":

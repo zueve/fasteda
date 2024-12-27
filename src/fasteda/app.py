@@ -41,8 +41,8 @@ class FastEDA:
             raise ValueError(f"No handler for topic {event.topic}")
         return await handler(event)
 
-    async def start(self):
+    async def __aenter__(self):
         pass
 
-    async def stop(self):
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
         pass

@@ -25,27 +25,6 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
 
-  kafka-init:
-    image: confluentinc/cp-kafka:6.1.1
-    depends_on:
-      kafka:
-        condition: service_healthy
-    entrypoint: ["/bin/sh", "-c"]
-    command: |
-      "
-      # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:29092 --list
-
-      echo -e 'Creating kafka topics'
-
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic client.create.v1 --replication-factor 1 --partitions 3
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic dlq.topic --replication-factor 1 --partitions 3
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic my_topic --replication-factor 1 --partitions 3
-
-      echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:29092 --list
-      "
-
   kowl:
     image: quay.io/cloudhut/kowl:master
     depends_on:
