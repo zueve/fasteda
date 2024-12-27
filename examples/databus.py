@@ -11,7 +11,7 @@ private_key = jwk.JWK.from_json(
 public_key = jwk.JWK.from_json(private_key.export_public())
 
 apps = app.FastEDA(
-    adder=adapter.pydantic,
+    adapter=adapter.pydantic,
     middlewares=[
         middleware.DatabusExtractHeaders(),
         middleware.JWTValidate(public_key),

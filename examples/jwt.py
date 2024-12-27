@@ -9,7 +9,7 @@ private_key = jwk.JWK.generate(kty="RSA", size=1024)
 public_key = jwk.JWK.from_json(private_key.export_public())
 
 apps = app.FastEDA(
-    adder=adapter.pydantic,
+    adapter=adapter.pydantic,
     middlewares=[
         middleware.JWTValidate(public_key),
         middleware.JWTExtractPayload(),

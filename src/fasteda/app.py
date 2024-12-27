@@ -9,11 +9,11 @@ T = TypeVar("T", bound=Callable[..., Awaitable[None]] | Callable[..., None])
 class FastEDA:
     def __init__(
         self,
-        adder: interface.HandlerAdapter,
+        adapter: interface.HandlerAdapter,
         middlewares: list[interface.Middleware] | None = None,
     ):
         self._handlers: dict[str, interface.Handler] = {}
-        self._adder = adder
+        self._adder = adapter
         self._middlewares = middlewares or []
 
     def add_handler(self, topic: str, handler: interface.Handler) -> None:

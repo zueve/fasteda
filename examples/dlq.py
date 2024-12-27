@@ -20,7 +20,7 @@ async def dlq_middleware(
 
 
 apps = app.FastEDA(
-    adder=adapter.pydantic,
+    adapter=adapter.pydantic,
     middlewares=[dlq_middleware],
 )
 
