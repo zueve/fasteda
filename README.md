@@ -23,9 +23,18 @@ def create_client(client: Client) -> None:
 
 ```
 
+Run consumer:
+
+```bash
+> AIOKAFKA__GROUP_ID=my-consumer-group \
+AIOKAFKA__BOOTSTRAP_SERVERS=localhost:9092 \
+python -m fasteda.consumer --app examples.lifespan.apps
+```
+
 
 See more examples:
 
- - Parse jwt [here](examples/jwt.py)
+ - Parse JWT [here](examples/jwt.py)
  - Parse databus [here](examples/databus.py)
  - DLQ [here](examples/dlq.py)
+ - Lifespan [here](examples/lifespan.py)
