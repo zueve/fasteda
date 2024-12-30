@@ -12,3 +12,4 @@ test:
 	uv run examples/databus.py
 	uv run examples/dlq.py
 	uv run examples/lifespan.py
+	uv run examples/groups.py
