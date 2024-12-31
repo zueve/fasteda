@@ -77,7 +77,7 @@ extend-select = [
     "LOG",    # flake8-logging
 
     # Refactoring and comprehensions
-    # "R",      # Refactor
+    "R",      # Refactor
     "C4",     # flake8-comprehensions
     "SIM",    # flake8-simplify
 

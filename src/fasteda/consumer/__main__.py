@@ -7,7 +7,8 @@ from . import config, consumer
 
 @click.command()
 @click.option("--app", help='App module like "myapp.app"')
-@click.option("--topics", multiple=True, help='Topics like "topic1"')
+@click.option("--bootstrap_servers", help="Kafka servers")
+@click.option("--group_id", help="Consumer group_id")
 def run(**kwargs):
     consumer_config = config.Consumer.from_env(**kwargs)
 

@@ -28,6 +28,6 @@ def pydantic(
             await endpoint(value)
         else:
             endpoint(value)
-        return None
+        return
 
     return handler

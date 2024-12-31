@@ -12,27 +12,22 @@ class Consumer:
         self,
         config: config.Consumer,
     ):
-        topics = config.topics
         supported_topics = config.app.get_topics()
-        if not topics:
-            topics = supported_topics
-        elif not topics.issubset(supported_topics):
+        topics = config.topics or supported_topics
+        if not topics.issubset(supported_topics):
             unsupporter_topics = topics - supported_topics
             raise ValueError(
                 f"Topics {unsupporter_topics} are not supported by the app"
             )
 
-        topics = (
-            config.app.get_topics() if not config.topics else config.topics
-        )
-        client = aiokafka.AIOKafkaConsumer(
-            *topics,
-            **config.aiokafka.model_dump(),
-            enable_auto_commit=False,
-        )
-
-        self._client = client
         self._app = config.app
+        self._client = aiokafka.AIOKafkaConsumer(
+            *topics,
+            bootstrap_servers=config.bootstrap_servers,
+            group_id=config.group_id,
+            enable_auto_commit=False,
+            **config.aiokafka.model_dump(),
+        )
 
     async def run(self) -> None:
         async with self._client, self._app:

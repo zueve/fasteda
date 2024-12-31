@@ -7,8 +7,6 @@ from . import interface
 
 
 class AIOKafka(BaseModel):
-    bootstrap_servers: str = "kafka:9092"
-    group_id: str
     group_instance_id: str | None = None
     fetch_max_wait_ms: int = 500
     fetch_max_bytes: int = 52428800
@@ -35,9 +33,11 @@ class AIOKafka(BaseModel):
 
 
 class Consumer(BaseSettings):
+    bootstrap_servers: str
+    group_id: str
     topics: set[str] = set()
     app: ImportString[interface.App]
-    aiokafka: AIOKafka
+    aiokafka: AIOKafka = AIOKafka()
 
     model_config = SettingsConfigDict(env_nested_delimiter="__")
 
