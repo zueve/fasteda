@@ -2,7 +2,7 @@ import asyncio
 
 import pydantic
 
-from fasteda import adapter, app, entity, interface
+from fasteda import adapter, app, entity, interface, router
 
 
 class PrintMideleware:
@@ -16,13 +16,13 @@ class PrintMideleware:
         return await next_(event)
 
 
-group1 = app.Group(
+group1 = router.Router(
     name="Group 1",
     adapter=adapter.pydantic,
     middlewares=[PrintMideleware("Group 1: Step 2")],
 )
 
-group2 = app.Group(
+group2 = router.Router(
     name="Group 2",
     adapter=adapter.pydantic,
     middlewares=[PrintMideleware("Group 2: Step 2")],
@@ -36,18 +36,18 @@ class Client(pydantic.BaseModel):
 
 @group1.add("client.create.v1")
 def create_client(client: Client) -> None:
-    print(f"{client=} created")  # noqa: T201
+    print("Step 3")  # noqa: T201
 
 
 @group2.add("client.update.v1")
 def update_client(client: Client) -> None:
-    print(f"{client=} updated")  # noqa: T201
+    print("Step 3")  # noqa: T201
 
 
 apps = app.FastEDA(
     adapter=adapter.pydantic,
     middlewares=[PrintMideleware("Step 1")],
-    groups=[group1, group2],
+    routers=[group1, group2],
 )
 
 if __name__ == "__main__":

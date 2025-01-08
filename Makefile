@@ -13,4 +13,4 @@ test:
 	uv run examples/dlq.py
 	uv run examples/dlq_v2.py
 	uv run examples/lifespan.py
-	uv run examples/groups.py
+	uv run examples/routers.py

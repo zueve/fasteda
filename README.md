@@ -34,7 +34,7 @@ See more examples:
 
  - Parse JWT [here](examples/jwt.py)
  - Parse databus [here](examples/databus.py)
- - DLQ Minimal [here](examples/dlq.py)
+ - DLQ Mock Producer [here](examples/dlq.py)
  - DLQ Full [here](examples/dlq_v2.py)
  - Lifespan [here](examples/lifespan.py)
- - Groups [here](examples/groups.py)
+ - Router [here](examples/routers.py)

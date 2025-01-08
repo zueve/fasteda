@@ -21,11 +21,8 @@ def get_producer() -> aiokafka.AIOKafkaProducer:
 
 @asynccontextmanager
 async def lifespan():
-    await get_producer().start()
-    try:
+    async with get_producer():
         yield
-    finally:
-        await get_producer().stop()
 
 
 apps = app.FastEDA(
