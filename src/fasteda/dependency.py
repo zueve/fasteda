@@ -122,6 +122,11 @@ class Injector:
         return self._run(provider, parameter)
 
     def _run(self, provider: _Provider[T], parameter: inspect.Parameter) -> T:
+        result_key = provider.get_result_key(parameter)
+
+        if provider.cachable and result_key in self._cache:
+            return self._cache[result_key]
+
         if provider.run not in self._cache_stack:
             stack = self._build(provider, parameter, set())
             self._cache_stack[provider.run] = [
@@ -130,25 +135,19 @@ class Injector:
         else:
             stack = self._cache_stack[provider.run]
 
-        result_key = provider.get_result_key(parameter)
-
-        if provider.cachable and result_key in self._cache:
-            return self._cache[result_key]
-
         binds: dict[ResultKey[T], T] = {}
         for row in stack:
             if row.provider.cachable and row.result_key in self._cache:
                 continue
 
-            params = {
-                param_name: binds.get(
-                    result_key_, self._cache.get(result_key_)
-                )
-                for param_name, result_key_ in row.param_map.items()
-            }
+            params = {}
+            for param_name, result_key_ in row.param_map.items():
+                if row.cachable:
+                    params[param_name] = self._cache[result_key_]
+                else:
+                    params[param_name] = binds[result_key_]
 
             result = row.provider.run(**params)
-
             if row.cachable:
                 self._cache[row.result_key] = result
             else:

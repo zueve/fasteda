@@ -42,10 +42,10 @@ def provider_d(a: A, b: B, c: C) -> D:
     return D(a, b, c)
 
 
-injectior = Injector()
-injectior.add_provider(provider_a)
-injectior.add_provider(provider_b)
-injectior.add_provider(provider_c)
-# injectior.add_provider(provider_d)
+injector = Injector()
+injector.add_provider(provider_a)
+injector.add_provider(provider_b)
+injector.add_provider(provider_c)
+# injector.add_provider(provider_d)
 
-print(injectior.run(provider_d))
+print(injector.run(provider_d))
