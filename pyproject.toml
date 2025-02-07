@@ -17,21 +17,18 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [dependency-groups]
-dev = [
-    "mypy>=1.13.0",
-    "ruff>=0.8.3",
-]
+dev = ["mypy>=1.13.0", "ruff>=0.8.3"]
 
 [tool.mypy]
 python_version = "3.12"
 
 enable_error_code = ["truthy-bool", "redundant-expr", "unused-awaitable"]
 
-allow_redefinition = false
+allow_redefinition = true
 check_untyped_defs = true
 disallow_untyped_decorators = true
-# disallow_any_explicit = true
-disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_any_generics = true       # disallow_any_explicit = true
 disallow_untyped_calls = true
 ignore_errors = false
 implicit_reexport = false
@@ -46,10 +43,7 @@ warn_unreachable = true
 warn_no_return = true
 
 [[tool.mypy.overrides]]
-module = [
-    "jwcrypto.*",
-    "aiokafka.*",
-]
+module = ["jwcrypto.*", "aiokafka.*"]
 ignore_missing_imports = true
 
 [tool.ruff]
@@ -59,37 +53,37 @@ target-version = "py312"
 [tool.ruff.lint]
 extend-select = [
     # Base
-    "A",      # flake8-builtins
-    "N",      # Naming
-    "B",      # flake8-bugbear
-    "F",      # Pyflakes
-    "C",      # pycodestyle
-    "W",      # pycodestyle
-    "E",      # pycodestyle
+    "A", # flake8-builtins
+    "N", # Naming
+    "B", # flake8-bugbear
+    "F", # Pyflakes
+    "C", # pycodestyle
+    "W", # pycodestyle
+    "E", # pycodestyle
 
     # Imports and sorting
-    "I",      # isort
-    "ICN",    # flake8-import-conventions
-    "TID",    # flake8-tidy-imports
+    "I",   # isort
+    "ICN", # flake8-import-conventions
+    "TID", # flake8-tidy-imports
 
     # Logging
-    "G",      # flake8-logging-format
-    "LOG",    # flake8-logging
+    "G",   # flake8-logging-format
+    "LOG", # flake8-logging
 
     # Refactoring and comprehensions
-    "R",      # Refactor
-    "C4",     # flake8-comprehensions
-    "SIM",    # flake8-simplify
+    "R",   # Refactor
+    "C4",  # flake8-comprehensions
+    "SIM", # flake8-simplify
 
     # Security checks (bandit and custom rules)
-    "S",      # Bandit
+    "S", # Bandit
 
     # Python upgrades
-    "UP",     # pyupgrade
+    "UP", # pyupgrade
 
     # Type checking and annotations
-    "PT",     # flake8-pytest-style
-    "PYI",    # flake8-pyi
+    "PT",  # flake8-pytest-style
+    "PYI", # flake8-pyi
 ]
 ignore = [
     "COM812", # Conflict with format

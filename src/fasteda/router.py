@@ -67,7 +67,9 @@ class Route:
     ) -> interface.Handler:
         for mw in reversed(middlewares):
 
-            def wrapper(next_: interface.Handler, mw=mw) -> interface.Handler:
+            def wrapper(
+                next_: interface.Handler, mw: interface.Middleware = mw
+            ) -> interface.Handler:
                 async def wrapped(event: interface.Event) -> None:
                     return await mw(event, next_)
 

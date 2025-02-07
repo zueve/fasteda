@@ -17,3 +17,8 @@ HandlerAdapter = Callable[
 ]
 
 Middleware = Callable[[Event, Handler], Result]
+
+
+type Headers = Mapping[str, str]
+
+type Header = str

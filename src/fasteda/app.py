@@ -1,5 +1,6 @@
 from collections.abc import Awaitable, Callable
 from contextlib import AbstractAsyncContextManager, asynccontextmanager
+from types import TracebackType
 from typing import TypeVar
 
 from . import interface, router
@@ -31,11 +32,11 @@ class FastEDA(router.Router):
                 route.add_middlewares(self._middlewares)
                 self._routes[topic] = route
 
-    async def handle(self, event: interface.Event):
+    async def handle(self, event: interface.Event) -> None:
         handler = self._routes.get(event.topic, None)
         if not handler:
             raise ValueError(f"No handler for topic {event.topic}")
-        return await handler(event)
+        await handler(event)
 
     def get_topics(self) -> set[str]:
         return set(self._routes.keys())
@@ -44,5 +45,10 @@ class FastEDA(router.Router):
         await self._lifespan.__aenter__()
         return self
 
-    async def __aexit__(self, exc_type, exc_val, exc_tb):
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> None:
         await self._lifespan.__aexit__(exc_type, exc_val, exc_tb)

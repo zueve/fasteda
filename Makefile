@@ -14,3 +14,6 @@ test:
 	uv run examples/dlq_v2.py
 	uv run examples/lifespan.py
 	uv run examples/routers.py
+	uv run examples/dependencies.py
+	uv run examples/di.py
+	uv run examples/di_param.py
